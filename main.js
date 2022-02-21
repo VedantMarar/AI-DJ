@@ -28,15 +28,23 @@ function setup(){
 function draw(){
     image(video,0,0,550,550);
     song1_status = song.isPlaying();
-    song2_status = song.isPlaying();
+    song2_status = song2.isPlaying();
     fill("#FF0000");
     stroke("#FF0000");
+    if(scoreRightWrist>0.2){
+        circle(rwrx,rwry,20);  
+        song2.stop()
+        if(song1_status == false){
+            song.play()
+            document.getElementById("song").innerHTML = "Playing first song"
+        }
+    }
     if(scoreLeftWrist > 0.2){
         circle(lwrx,lwry,20);
-        song.Stop();
+        song.stop();
         if(song2_status == false){
             song2.Play()
-            document.getElementById("volume").innerHTML = "Playing peter pan song"
+            document.getElementById("song").innerHTML = "Playing peter pan song"
             
         }    
     }
@@ -66,6 +74,8 @@ function gotPoses(results){
         console.log("The right wrist x:"+rwrx+"The right wrist y:"+rwry);
         scoreLeftWrist = results[0].pose.keypoints[9].score;
         console.log("The left wrist score:"+scoreLeftWrist);
+        scoreRightWrist = results[0].pose.keypoints[10].score;
+        console.log("The Right wrist score:"+scoreRightWrist);
     }
 
 }
